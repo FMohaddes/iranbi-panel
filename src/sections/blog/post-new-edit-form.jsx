@@ -183,14 +183,14 @@ export function PostNewEditForm({ currentPost }) {
         <Field.Text name="title_fa" label="عنوان پست به فارسی" />
         <Field.Text name="title_en" label="عنوان پست به انگلیسی" />
 
-        {/*   <Stack spacing={1.5}>
+           <Stack spacing={1.5}>
          <Typography variant="subtitle2">محتوا فارسی</Typography>
          <Field.Editor name="content_fa" sx={{ maxHeight: 480 }} />
          </Stack>
          <Stack spacing={1.5}>
          <Typography variant="subtitle2">محتوا انگلیسی</Typography>
          <Field.Editor name="content_en" sx={{ maxHeight: 480 }} />
-         </Stack> */}
+         </Stack>
 
         <Stack spacing={1.5}>
           <Typography variant="subtitle2">کاور</Typography>

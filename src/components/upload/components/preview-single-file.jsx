@@ -9,12 +9,12 @@ import { Iconify } from '../../iconify';
 
 export function SingleFilePreview({ file }) {
   const fileName = typeof file === 'string' ? file : file.name;
-
+  console.log(file);
   const previewUrl =
     typeof file === 'string'
-      ? file
+      ? process.env.NEXT_PUBLIC_ASSET_URL+file
       : file?.url
-        ? process.env.NEXT_PUBLIC_ASSET_URL+file.url
+        ? file.url
         : file instanceof File
           ? URL.createObjectURL(file)
           : '';
