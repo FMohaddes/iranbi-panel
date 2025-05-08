@@ -1,18 +1,21 @@
 import { z as zod } from 'zod';
 import { useForm } from 'react-hook-form';
+import { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
+import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Switch from '@mui/material/Switch';
 import Divider from '@mui/material/Divider';
+import MenuItem from '@mui/material/MenuItem';
 import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
@@ -20,16 +23,13 @@ import { useRouter } from 'src/routes/hooks';
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { toast } from 'src/components/snackbar';
-import { Field, Form, schemaHelper } from 'src/components/hook-form';
+import { Form, Field, schemaHelper } from 'src/components/hook-form';
 
-import { PostDetailsPreview } from './post-details-preview';
-import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 import { Iconify } from '../../components/iconify';
 import { varFade } from '../../components/animate';
 import axios, { endpoints } from '../../utils/axios';
-import Chip from '@mui/material/Chip';
 import { PRODUCT_TYPE_GROUP_OPTIONS } from '../../_mock';
-import MenuItem from '@mui/material/MenuItem';
+import { PostDetailsPreview } from './post-details-preview';
 import { useImageUpload } from '../../hooks/use-image-upload';
 // ----------------------------------------------------------------------
 
@@ -190,7 +190,7 @@ export function PostNewEditForm({ currentPost }) {
          <Stack spacing={1.5}>
          <Typography variant="subtitle2">محتوا انگلیسی</Typography>
          <Field.Editor name="content_en" sx={{ maxHeight: 480 }} />
-         </Stack>*/}
+         </Stack> */}
 
         <Stack spacing={1.5}>
           <Typography variant="subtitle2">کاور</Typography>

@@ -1,6 +1,7 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import useSWR from 'swr';
+import { useState, useEffect, useCallback } from 'react';
 
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
@@ -16,8 +17,8 @@ import { useSetState } from 'src/hooks/use-set-state';
 import { orderBy } from 'src/utils/helper';
 
 import { POST_SORT_OPTIONS } from 'src/_mock';
-import { DashboardContent } from 'src/layouts/dashboard';
 import { useSearchPosts } from 'src/actions/blog';
+import { DashboardContent } from 'src/layouts/dashboard';
 
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
@@ -25,9 +26,8 @@ import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
 import { PostSort } from '../post-sort';
 import { PostSearch } from '../post-search';
+import { fetcher, endpoints } from '../../../utils/axios';
 import { PostListHorizontal } from '../post-list-horizontal';
-import { endpoints, fetcher } from '../../../utils/axios';
-import useSWR from 'swr';
 
 // ----------------------------------------------------------------------
 

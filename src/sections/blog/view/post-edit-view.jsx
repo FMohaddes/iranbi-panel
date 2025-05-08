@@ -1,5 +1,8 @@
 'use client';
 
+import useSWR from 'swr';
+import { useParams } from 'next/navigation';
+
 import { paths } from 'src/routes/paths';
 
 import { DashboardContent } from 'src/layouts/dashboard';
@@ -7,10 +10,8 @@ import { DashboardContent } from 'src/layouts/dashboard';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
 import { PostNewEditForm } from '../post-new-edit-form';
-import { useParams } from 'next/navigation';
-import useSWR from 'swr';
 import {
-  endpoints , fetcher,
+  fetcher , endpoints,
 } from '../../../utils/axios';
 
 // ----------------------------------------------------------------------

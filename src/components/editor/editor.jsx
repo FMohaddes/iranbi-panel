@@ -1,12 +1,13 @@
 // components/TinyEditor.tsx
 import { Editor } from '@tinymce/tinymce-react';
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { useRef, useState, useEffect, forwardRef } from 'react';
+
 import Stack from '@mui/material/Stack';
 import Portal from '@mui/material/Portal';
 import Backdrop from '@mui/material/Backdrop';
-import FormHelperText from '@mui/material/FormHelperText';
-import { varAlpha } from '../../theme/styles';
 import { useTheme } from '@mui/material/styles';
+import FormHelperText from '@mui/material/FormHelperText';
+
 
 export const TinyEditor = forwardRef(
   (
@@ -46,7 +47,9 @@ export const TinyEditor = forwardRef(
           <Editor
             apiKey={process.env.NEXT_PUBLIC_TINY}
             value={value}
-            onInit={(evt, editor) => (editorRef.current = editor)}
+            onInit={(evt, editor) => {
+              editorRef.current = editor;
+            }}
             onEditorChange={(content) => onChange?.(content)}
             init={{
               height: fullScreen ? '100vh' : 500,

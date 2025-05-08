@@ -1,6 +1,7 @@
 // styles.ts
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
+
 import { varAlpha } from 'src/theme/styles';
 
 export const StyledRoot = styled(Stack, {

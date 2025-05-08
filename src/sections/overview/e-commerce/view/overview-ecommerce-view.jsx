@@ -1,11 +1,13 @@
 'use client';
 
 import { useContext } from 'react';
+
 import { useTheme } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { _ecommerceSalesOverview } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
+
 import { AuthContext } from '../../../../auth/context/auth-context';
 import { EcommerceSalesOverview } from '../ecommerce-sales-overview';
 

@@ -1,5 +1,7 @@
 import { useCallback } from 'react';
+
 import axios, { endpoints } from 'src/utils/axios';
+
 import { toast } from 'src/components/snackbar';
 
 export const useImageUpload = ({ watch, setValue, fieldName = 'ProductImage' }) => {
@@ -105,10 +107,10 @@ export const useImageUpload = ({ watch, setValue, fieldName = 'ProductImage' }) 
 
           if (response.status === 200) {
             return (response.data || []).map((file) => file.url);
-          } else {
+          } 
             toast.error(`خطا در آپلود ${type}`);
             return [];
-          }
+          
         } catch (error) {
           console.error(`Upload ${type} error:`, error);
           toast.error(`خطا در آپلود ${type}`);
