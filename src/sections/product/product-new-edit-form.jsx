@@ -29,7 +29,7 @@ import {
 
 import { toast } from "src/components/snackbar";
 import {
-  Form , Field , schemaHelper
+  Form , Field
 } from "src/components/hook-form";
 
 import axios , {
@@ -128,16 +128,16 @@ export function ProductNewEditForm( { currentProduct } ) {
 
     // Append images
     if (data.images?.length) {
-      for (const file of data.images) {
+      data.images?.forEach((file) => {
         formData.append('images', file);
-      }
+      });
     }
 
     // Append videos
     if (data.videos?.length) {
-      for (const file of data.videos) {
+      data.videos?.forEach((file) => {
         formData.append('videos', file);
-      }
+      });
     }
     const url = currentProduct ? `${ endpoints.product.update(currentProduct._id) }` : endpoints.product.new;
 

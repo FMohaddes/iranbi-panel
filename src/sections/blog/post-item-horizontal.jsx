@@ -1,3 +1,7 @@
+import { mutate } from 'swr';
+import { toast } from 'sonner';
+import { useCallback } from 'react';
+
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
@@ -20,11 +24,9 @@ import { maxLine } from 'src/theme/styles';
 import { Label } from 'src/components/label';
 import { Image } from 'src/components/image';
 import { Iconify } from 'src/components/iconify';
-import { CustomPopover, usePopover } from 'src/components/custom-popover';
+import { usePopover, CustomPopover } from 'src/components/custom-popover';
+
 import axios , { endpoints } from '../../utils/axios';
-import { useCallback } from 'react';
-import { toast } from 'sonner';
-import { mutate } from 'swr';
 
 // ----------------------------------------------------------------------
 
@@ -167,7 +169,7 @@ export function PostItemHorizontal({ post,mutateKey }) {
         >
           <Image
             alt={title}
-            src={process.env.NEXT_PUBLIC_ASSET_URL + cover?.url || ''}
+            src={cover?.url ? process.env.NEXT_PUBLIC_ASSET_URL + cover.url : ''}
             sx={{
               height: 1,
               borderRadius: 1.5,
