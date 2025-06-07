@@ -178,7 +178,7 @@ export function PostListView() {
         ))}
       </Tabs>
 
-      <PostListHorizontal posts={dataFiltered} loading={postsLoading} />
+      <PostListHorizontal posts={dataFiltered} loading={postsLoading} mutateKey={url}/>
     </DashboardContent>
   );
 }

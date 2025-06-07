@@ -42,18 +42,14 @@ import {
 // ----------------------------------------------------------------------
 
 export const NewProductSchema = zod.object( {
-  ProductName : zod.string().min( 1 , { message : "نام محصول الزامی است!" } ) ,
-  ProductType : zod.string().min( 1 , { message : "نوع محصول الزامی است!" } ) ,
-  Description : schemaHelper.editor( { message : { required_error : "توضیحات الزامی است!" } } ) , // ProductImage : schemaHelper.files( { message : { required_error : "آپلود عکس‌ها الزامی است!" } } ) ,
-  ProductImage: zod.array(zod.string()).min(1, "آپلود حداقل یک عکس‌ الزامی است!"),
-  ProductCode  : zod.number().min( 1 , { message : "کد محصول الزامی است!" } ) ,
-  AccCode      : zod.number().min( 1 , { message : "کد حسابداری الزامی است!" } ) ,
-  FootLength   : zod.number().min( 1 , { message : "طول پا الزامی است!" } ) ,
-  Color        : zod.string().min( 1 , { message : "انتخاب رنگ الزامی است!" } ) ,
-  Size         : zod.number().min( 1 , { message : "انتخاب سایز الزامی است!" } ) ,
-  Gender       : zod.string().optional() ,
-  Price        : zod.number().min( 1 , { message : "قیمت باید بیشتر از ۰ باشد!" } ) ,
-  Tag          : zod.array( zod.string() ).optional() ,
+  name: zod.string().min(1, 'نام الزامی است'),
+  description: zod.string().min(1, 'توضیح الزامی است'),
+  price: zod.string().min(1, 'قیمت الزامی است'),
+  category: zod.string().min(1, 'دسته‌بندی الزامی است'),
+  tags: zod.array(zod.string()).optional(),
+  images: zod.any().optional(),
+  videos: zod.any().optional(),
+  videoData: zod.string().optional(),
 } );
 
 // ----------------------------------------------------------------------
@@ -63,18 +59,15 @@ export function ProductNewEditForm( { currentProduct } ) {
 
 
   const defaultValues = {
-    ProductName  : "" ,
-    Color        : "مشکی" ,
-    Size         : 0 ,
-    FootLength   : 0 ,
-    Description  : "" ,
-    ProductImage : [] ,
-    ProductCode  : 0 ,
-    AccCode      : 0 ,
-    Price        : 0 ,
-    Tag          : [] ,
-    Gender       : "Men" ,
-    ProductType  : "کفش" ,
+    name: '',
+    description: '',
+    price: '',
+    category: '',
+    tags: [],
+    images: [],
+    videos: [],
+    videoData: '',
+
   }
 
   const methods = useForm( {
@@ -119,41 +112,51 @@ export function ProductNewEditForm( { currentProduct } ) {
   } , [ currentProduct , reset ] );
 
 
-  const onSubmit = handleSubmit( async( data ) => {
-    const url = currentProduct ? `${ endpoints.product.update }/${ currentProduct.ProductID }` : endpoints.product.new;
-    const method = currentProduct ? "patch" : "post";
+  const onSubmit = handleSubmit(async (data) => {
+    const formData = new FormData();
 
-    const productData = {
-      Tag          : data.Tag ,
-      ProductName  : data.ProductName ,
-     ProductImage: data.ProductImage  ,
-      ProductType  : data.ProductType ,
-      Description  : data.Description ,
-      ProductCode  : data.ProductCode ,
-      AccCode      : data.AccCode ,
-      FootLength   : data.FootLength ,
-      Color        : data.Color ,
-      Size         : data.Size ,
-      Gender       : data.Gender ,
-      Price        : data.Price
-    };
+    formData.append('name', data.name);
+    formData.append('description', data.description);
+    formData.append('price', data.price);
+    formData.append('category', data.category);
+    formData.append('videoData', data.videoData || '');
 
-    try {
-      const res = await axios( {
-        method , url ,
-        data: productData ,
-      } );
+    // Append tags as individual fields
+    data.tags?.forEach((tag) => {
+      formData.append('tags', tag);
+    });
 
-      if( res?.status === 200 ) {
-        reset();
-        toast.success( currentProduct ? `آپدیت با موفقیت انجام شد!` : `ساخت با موفقیت انجام شد!` );
-        router.push( paths.dashboard.product.root );
+    // Append images
+    if (data.images?.length) {
+      for (const file of data.images) {
+        formData.append('images', file);
       }
     }
-    catch(error) {
-      toast.error( error );
+
+    // Append videos
+    if (data.videos?.length) {
+      for (const file of data.videos) {
+        formData.append('videos', file);
+      }
     }
-  } );
+    const url = currentProduct ? `${ endpoints.product.update(currentProduct._id) }` : endpoints.product.new;
+
+    try {
+      const res = await axios.post(url, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (res.status === 200) {
+        reset();
+        toast.success('محصول با موفقیت ثبت شد!');
+        router.push(paths.dashboard.products.root);
+      }
+    } catch (error) {
+      toast.error('خطا در ثبت محصول');
+    }
+  });
 
 
 

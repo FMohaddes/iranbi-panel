@@ -39,7 +39,7 @@ export const NewPostSchema = zod.object({
   content_fa: schemaHelper.editor().min(10, { message: 'محتوا حداقل ۱۰۰ کاراکتر باشد' }),
   content_en: schemaHelper.editor().min(10, { message: 'محتوا حداقل ۱۰۰ کاراکتر باشد' }),
   cover: schemaHelper.file().optional(),
-  tags: zod.array(zod.string()).min(2, { message: 'حداقل ۲ مورد الزامی است!' }),
+  tags: zod.array(zod.string()).optional(),
   metaTitle_fa: zod.string().optional(),
   metaTitle_en: zod.string().optional(),
   metaDescription_fa: zod.string().optional(),
@@ -102,7 +102,6 @@ export function PostNewEditForm({ currentPost }) {
     formState: { isSubmitting, isValid, errors },
   } = methods;
 
-  console.log(watch());
 
   const { handleRemoveFile, handleRemoveAllFiles, handleUpload } = useImageUpload({
     watch,
@@ -131,7 +130,7 @@ export function PostNewEditForm({ currentPost }) {
         content_en: currentPost?.content?.en || '',
         excerpt_fa: currentPost?.excerpt?.fa || '',
         excerpt_en: currentPost?.excerpt?.en || '',
-        cover: currentPost?.cover || null,
+        cover: currentPost?.cover?.url || null,
         tags: currentPost?.tags || [],
         metaTitle_fa: currentPost?.metaTitle?.fa || '',
         metaTitle_en: currentPost?.metaTitle?.en || '',
@@ -153,14 +152,29 @@ export function PostNewEditForm({ currentPost }) {
 
   const onSubmit = handleSubmit(async (data) => {
     const url = currentPost
-      ? `${endpoints.post.update}/${currentPost.ProductID}`
+      ? `${endpoints.post.update(currentPost._id)}`
       : endpoints.post.new;
     const method = currentPost ? 'patch' : 'post';
+
     try {
+      const formattedData = {
+        ...data,
+        cover: data.cover && typeof data.cover === 'string'
+          ? { url: data.cover }
+          : data.cover?.url
+            ? { url: data.cover.url }
+            : null,
+        ogImage: data.ogImage && typeof data.ogImage === 'string'
+          ? { url: data.ogImage }
+          : data.ogImage?.url
+            ? { url: data.ogImage.url }
+            : null,
+      };
+
       const res = await axios({
         method,
         url,
-        data,
+        data: formattedData,
       });
 
       if (res?.status === 200) {
@@ -171,7 +185,8 @@ export function PostNewEditForm({ currentPost }) {
     } catch (error) {
       toast.error(error);
     }
-  });
+  })
+
 
   const renderDetails = (
     <Card>

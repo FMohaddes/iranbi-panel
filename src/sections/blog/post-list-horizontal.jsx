@@ -6,10 +6,10 @@ import { PostItemHorizontal } from './post-item-horizontal';
 
 // ----------------------------------------------------------------------
 
-export function PostListHorizontal({ posts, loading }) {
+export function PostListHorizontal({ posts, loading,mutateKey }) {
   const renderLoading = <PostItemSkeleton variant="horizontal" />;
 
-  const renderList = posts.map((post) => <PostItemHorizontal key={post.id} post={post} />);
+  const renderList = posts.map((post) => <PostItemHorizontal key={post.id} post={post} mutateKey={mutateKey}/>);
 
   return (
     <>

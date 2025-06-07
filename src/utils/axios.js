@@ -53,6 +53,8 @@ export const endpoints = {
   },
   post: {
     new: 'blog/create',
+    update : ( id ) =>  `blog/update/${ id }`  ,
+    delete : ( id ) =>  `blog/delete/${ id }`  ,
     list: 'blog/posts',
     details: '/api/post/details',
     latest: '/api/post/latest',
@@ -89,9 +91,9 @@ export const endpoints = {
     delete: 'products',
     bulkDelete: 'products',
     upload: 'products',
-    new: 'products',
-    update: 'products/user',
-    detail : ( id ) =>  `products/${ id }`  ,
+    new: 'products/create',
+    update : ( id ) =>  `products/update${ id }`  ,
+    detail : ( id ) =>  `product/${ id }`  ,
   },
   user: {
     roles: 'users/roles',
